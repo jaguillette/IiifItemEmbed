@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Controller for mirador embed views
  */
 class IiifItemEmbed_MiradorEmbedController extends IiifItems_BaseController
 {
