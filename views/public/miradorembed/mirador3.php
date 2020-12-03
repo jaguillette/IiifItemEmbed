@@ -23,36 +23,35 @@
     }
     ?>
     <script type="text/javascript">
+      <?php if (isset($manifestUri)): ?>
       var mirador = Mirador.viewer({
         "id": "viewer",
         "language": "<?php echo str_replace('_', '-', Zend_Registry::get('bootstrap')->getResource('Locale')->toString()); ?>",
-        <?php if (isset($manifestUri)) : ?>
         "manifests": { "<?php echo $manifestUri; ?>":{} },
-        <?php else : ?>
-        "manifests": {
-        <?php foreach ($manifests as $manifest) : ?>
-          "<?php echo $manifest; ?>": {},
-        <?php endforeach; ?>
-      },
-        <?php endif; ?>
-        <?php if (isset($manifestUri)) : ?>
         "windows": [
           {
             "loadedManifest": "<?php echo $manifestUri; ?>",
             "thumbnailNavigationPosition": 'far-bottom'
           }
         ]
-        <?php else: ?>
-        "windows": [
+      });
+      <?php else: ?>
+      var mirador = Mirador.viewer({
+        "id": "viewer",
+        "language": "<?php echo str_replace('_', '-', Zend_Registry::get('bootstrap')->getResource('Locale')->toString()); ?>",
+        "manifests": {
           <?php foreach ($manifests as $manifest) : ?>
-          {
-            "loadedManifest": "<?php echo $manifest; ?>",
-            "thumbnailNavigationPosition": "far-bottom"
-          },
+            "<?php echo $manifest; ?>": {},
+          <?php endforeach; ?>
+        },
+        "catalog": [
+          <?php foreach ($manifests as $manifest) : ?>
+          { "manifestId": "<?php echo $manifest; ?>" },
           <?php endforeach; ?>
         ]
-        <?php endif; ?>
       });
+      mirador.store.dispatch({type: 'mirador/SET_WORKSPACE_ADD_VISIBILITY', isWorkspaceAddVisible: true});
+      <?php endif; ?>
     </script>
   </body>
 </html>
