@@ -10,15 +10,14 @@
     <?php
     if ($type != 'collections' || !IiifItems_Util_Collection::isCollection($thing)) {
       $thingId = $thing->$id;
-      $manifestUri = absolute_url(array('things' => $type, 'id' => $thing->id), 'iiifitems_manifest');;
+      $manifestUri = absolute_url(array('things' => $type, 'id' => $thing->id), 'iiifitems_manifest');
+      $manifestSource = metadata($thing, array("Dublin Core", "Source"));
     } else {
-      $collections = array();
       $manifests = array();
-      foreach (IiifItems_Util_Collection::findSubcollectionsFor($thing) as $subcollection) {
-        $collections[] = absolute_url(array('id' => $subcollection->id), 'iiifitems_collection');
-      }
       foreach (IiifItems_Util_Collection::findSubmanifestsFor($thing) as $submanifest) {
-        $manifests[] = absolute_url(array('things' => $type, 'id' => $submanifest->id), 'iiifitems_manifest');
+        $manifest_url = absolute_url(array('things' => $type, 'id' => $submanifest->id), 'iiifitems_manifest');
+        $manifest_source = metadata($submanifest, array("Dublin Core", "Source"));
+        $manifests[] = array("url"=>$manifest_url, "source"=>$manifest_source);
       }
     }
     ?>
@@ -46,7 +45,7 @@
         },
         "catalog": [
           <?php foreach ($manifests as $manifest) : ?>
-          { "manifestId": "<?php echo $manifest; ?>" },
+          { "manifestId": "<?php echo $manifest["url"]; ?>", "provider": "<?php echo $manifest["source"] ?>" },
           <?php endforeach; ?>
         ]
       });
