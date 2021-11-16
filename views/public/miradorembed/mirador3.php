@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <title><?php echo html_escape(metadata($thing, array('Dublin Core', 'Title'))) ?> - Mirador 3</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
     <script src="https://unpkg.com/mirador@latest/dist/mirador.min.js"></script>
   </head>

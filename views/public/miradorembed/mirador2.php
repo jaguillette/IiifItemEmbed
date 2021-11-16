@@ -8,6 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title><?php echo html_escape(metadata($thing, array('Dublin Core', 'Title'))) ?> - Mirador 2</title>
     <link rel="stylesheet" type="text/css" href="<?php echo html_escape($urlCss); ?>">
     <style type="text/css">
         body { padding: 0; margin: 0; overflow: hidden; }
